@@ -3,5 +3,6 @@
   "username": "Nazwa",
   "email": "Email",
   "password": "Hasło",
-  "passwordRepeat": "Powtórz hasło"
+  "passwordRepeat": "Powtórz hasło",
+  "login": "Zaloguj"
 }

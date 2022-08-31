@@ -3,5 +3,6 @@
   "username": "Username",
   "email": "Email",
   "password": "Password",
-  "passwordRepeat": "Password Repeat"
+  "passwordRepeat": "Password Repeat",
+  "login": "Login"
 }
