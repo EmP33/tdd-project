@@ -1,7 +1,13 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import SignUpPage from "./SignUpPage";
 import "../locale/i18n";
+
+import en from "../locale/en.json";
+import pl from "../locale/pl.json";
+
+import LanguageSelector from "../components/LanguageSelector";
+import i18next from "../locale/i18n";
 
 describe("Sign Up Page", () => {
   describe("Layout", () => {
@@ -129,6 +135,80 @@ describe("Sign Up Page", () => {
       //   email: "user@gmail.com",
       //   password: "12345678",
       // });
+    });
+  });
+
+  describe("internationalization", () => {
+    const setup = () => {
+      render(
+        <>
+          <SignUpPage /> <LanguageSelector />
+        </>
+      );
+    };
+
+    beforeEach(() => {
+      setup();
+    });
+
+    afterEach(() => {
+      act(() => {
+        i18next.changeLanguage("en");
+      });
+    });
+
+    it("displays all text in polish after switching language", () => {
+      // Switch language
+      userEvent.click(screen.getByAltText("Polish Flag"));
+
+      expect(
+        screen.getByRole("heading", { name: pl.signUp })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: pl.signUp })
+      ).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(pl.username)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(pl.email)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(pl.password)).toBeInTheDocument();
+      expect(
+        screen.getByPlaceholderText(pl.passwordRepeat)
+      ).toBeInTheDocument();
+    });
+
+    it("initially displays all text in english", () => {
+      expect(
+        screen.getByRole("heading", { name: en.signUp })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: en.signUp })
+      ).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(en.username)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(en.email)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(en.password)).toBeInTheDocument();
+      expect(
+        screen.getByPlaceholderText(en.passwordRepeat)
+      ).toBeInTheDocument();
+    });
+
+    it("displays all text in english after switching language back from polish", () => {
+      // Switch language
+      userEvent.click(screen.getByAltText("Polish Flag"));
+
+      // Switch language
+      userEvent.click(screen.getByAltText("English Flag"));
+
+      expect(
+        screen.getByRole("heading", { name: en.signUp })
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: en.signUp })
+      ).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(en.username)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(en.email)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(en.password)).toBeInTheDocument();
+      expect(
+        screen.getByPlaceholderText(en.passwordRepeat)
+      ).toBeInTheDocument();
     });
   });
 });

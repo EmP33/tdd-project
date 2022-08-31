@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const lngs = {
+export const lngs = {
   en: { nativeName: "English" },
   pl: { nativeName: "Polish" },
 };
 
 const SignUpPage = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [inputs, setInputs] = useState({
     username: "",
     email: "",
@@ -122,16 +122,6 @@ const SignUpPage = () => {
           Please check your email to activate your account
         </div>
       )}
-      {Object.keys(lngs).map((lng: any) => (
-        <button
-          key={lng}
-          onClick={() => i18n.changeLanguage(lng)}
-          disabled={i18n.resolvedLanguage === lng}
-        >
-          {/*@ts-ignore*/}
-          {lngs[lng].nativeName}
-        </button>
-      ))}
     </div>
   );
 };
